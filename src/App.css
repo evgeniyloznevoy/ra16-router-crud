@@ -27,7 +27,7 @@ a {
 }
 
 .close-form, .postAddForm-btn {
-  align-self: flex-end;
+  align-self: flex-start;
 }
 
 .post-item {
