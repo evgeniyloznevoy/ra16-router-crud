@@ -1,30 +1,29 @@
-import { Link } from "react-router-dom";
+import {useState} from "react";
+import { useNavigate  } from "react-router-dom";
 
-function PostAdd() {
+export default function CreatePost() {
 
-  const onSubmitForm = e => {
+  const [text, setText] = useState('')
+  const navigate = useNavigate ()
+
+  const handleClick = (e) => {
     e.preventDefault();
-    const elemForm = document.querySelector('.form-post_create');
-    const formData = new FormData(elemForm);
-    formData.append('id', 0);
-    formData.append('content', document.querySelector('textarea').value);
-    const xhr = new XMLHttpRequest();
-    const url = 'http://localhost:7070/posts';
-    xhr.open('POST', url);
-    xhr.send(formData);
+
+    fetch('http://localhost:7777/posts', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({id: 0, content: text.trim()}),
+    })
+      .then(()=> navigate('/'))
   }
 
   return (
-    <>
-      <form className="postAddForm">
-        <label className="label">
-          <textarea className="textarea" placeholder='О чем Вы сейчас думаете?' />
-        </label>
-        <button className="postAddForm-btn" type="submit" onClick={onSubmitForm}><Link to="/">Опубликовать</Link></button>
-        <button className="close-form" type="button"><Link to="/">X</Link></button>
-      </form>
-    </>
+    <form className="form">
+      <textarea onChange={(e) => setText(e.target.value)}></textarea>
+      <button type="btn-add-post" onClick={(e) => handleClick(e)}>Отправить</button>
+    </form>
   )
-}
-
-export default PostAdd;
+  }

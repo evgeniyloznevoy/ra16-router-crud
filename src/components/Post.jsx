@@ -1,18 +1,26 @@
-import { Link } from "react-router-dom";
-import Icon from './img/photo.jpg'
+import { useParams, useNavigate } from "react-router-dom";
+import {useEffect, useState} from "react";
 
-function Post({ id, text }) {
+export default function Post() {
+  let { id } = useParams();
+  const [post, setPost] = useState()
+  const navigate = useNavigate ()
+
+  const onDelete = e => {
+    e.preventDefault();
+    fetch('http://localhost:7777/posts/' + id, {
+      method: "DELETE"
+    })
+      .then(()=> navigate('/'));
+  }
+
+  useEffect(() => {
+    fetch('http://localhost:7777/posts/' + id)
+    .then(request => request.json())
+    .then(response => setPost(response));
+}, [])
+
   return (
-    <Link className="link_post" to={`/posts/${id}`} >
-      <div className="box-post" data-id={id}>
-        <div className="box-content">
-          <img className="icon" src={Icon} alt="icon"/>
-          <span>Имя и Фамилия</span>
-        </div>
-        <p className="text-post">{text}</p>
-      </div>
-    </Link>
-  )
+    post && <div>{post.content} <button onClick={(e) => onDelete(e, post.id)}>delete</button></div>
+  );
 }
-
-export default Post;
