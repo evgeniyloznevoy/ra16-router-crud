@@ -24,6 +24,7 @@ export default function CreatePost() {
     <form className="form">
       <textarea onChange={(e) => setText(e.target.value)}></textarea>
       <button type="btn-add-post" onClick={(e) => handleClick(e)}>Отправить</button>
+      <button type="btn-add-post" onClick={()=> navigate('/')}>Вернуться</button>
     </form>
   )
   }

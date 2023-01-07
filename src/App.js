@@ -13,7 +13,7 @@ function App() {
         </button>
         <Routes>
           <Route path='/posts/new' element={<PostAdd />} />
-          <Route path='/post/:id' element={<Post />} />
+          <Route path='/posts/:id' element={<Post />} />
           <Route path="/" element={<PostShow />} />
         </Routes>
       </Router>
