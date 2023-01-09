@@ -25,18 +25,26 @@ export default function Post({textArea}) {
           })
           .then(()=> navigate('/'));
   }
+ 
+    useEffect(()=>{
+        fetch('http://localhost:7777/posts/')
+            .then(response => response.json())
+            // .then(json=>setPost(json))
+            .then(json => setPost(json.filter(post => post.id === id)))
+  }, [post, id])
 
-    // useEffect(()=>{
-    //     fetch('http://localhost:7777/posts/' + id)
-    //         .then(response=> response.json())
-    //         .then(json=>setPost(json))
-    // }, [])
 
+  //   useEffect(()=>{
+  //       fetch('http://localhost:7777/posts/')
+  //           .then(response=> response.json())
+  //           .then(json=>setPost(json.filter(post => post.id === match.paramps.id)))
+  // }, [])
 
     return (
       post && <div>{post.content} 
       <button type="btn-add-post" onClick={(e) => onDelete(e, post.id)}>Удалить пост</button>
       <button type="btn-add-post" onClick={(e) => onEdit(e, post.id)}>Редактировать пост</button>
+      <button type="btn-add-post" onClick={(e) => navigate('/')}>Вернуться</button>
       </div>
     
       )
